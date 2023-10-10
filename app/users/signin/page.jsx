@@ -12,7 +12,8 @@ function SignInPage() {
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-    
+    const [providers, setProviders] = useState()
+
     const login = async (e)=>{
         try {
             e.preventDefault()
@@ -71,9 +72,17 @@ function SignInPage() {
             </div>
 
             <button className='btn btn-success w-full' disabled={loading} >{loading ? 'Loading...' : 'Submit'}</button>
+            <div className="divider divider-vertical ">OR</div>
+
+            <button type='button' className='btn btn-neutral' onClick={() => signIn('github')}>
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width={30} />
+                Sign in with Github
+            </button>
+
 
           </form>
         </div>
+
     </div>
   )
 }
