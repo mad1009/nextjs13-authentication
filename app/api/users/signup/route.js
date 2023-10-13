@@ -6,6 +6,9 @@ import { prisma, signUp } from "@/services/auth/authenticate";
 export async function POST(request) {
     const data = await request.json()
     console.log('data', data)
+    if(!data.email || !data.password){
+        return new NextResponse(JSON.stringify({error:"Please provide all required fields"}), {status:400})
+    }
     const existUser =  await prisma.user.findUnique({where:{email:data.email}})
     console.log('existUser', existUser)
     if(existUser){
