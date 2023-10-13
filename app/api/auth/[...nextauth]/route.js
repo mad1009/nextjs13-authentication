@@ -1,9 +1,12 @@
 import GithubProvider from "next-auth/providers/github"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { authenticate } from "@/services/auth/authenticate"
+import { authenticate, prisma } from "@/services/auth/authenticate"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 
 export const authOptions = {
+  adapter: PrismaAdapter(prisma),
+
   providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID,
