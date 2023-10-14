@@ -1,38 +1,30 @@
 'use client'
+import TodoCard from "@/components/TodoCard"
 import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
   const {data:session} = useSession()
+  const router = useRouter()
+  if(!session) return router.push('/users/signin')
+
   return (
-    <div className="h-screen flex items-center justify-center" >
-      {session?.user ? (
-         <>
-         <div className="card w-96 bg-base-100 shadow-xl">
-          <figure className="px-10 pt-10">
-            <div className="avatar">
-              <div className="w-24 rounded-full">
-                  <img src={session?.user?.image ? session.user.image : 'https://www.w3schools.com/w3images/avatar5.png'} />
-              </div>
-            </div>
-          </figure>
-          <div className="card-body items-center text-center">
-            <h2 className="card-title">{session.user.name}</h2>
-            <p>{session.user.email}</p>
-            <div className="card-actions">
-              <button className="btn btn-neutral" onClick={signOut} >Logout</button>
-            </div>
-          </div>
+    <div className="h-screen container mx-auto mt-4" >
+        <h1 className="text-2xl font-semibold my-2" >My Todos</h1>
+        <div>
+          <button className="btn btn-primary my-2" >Add New Todo</button>
+
+          <div className="px-3 my-2 flex gap-4 flex-wrap">
+          <TodoCard todo={{title:"Do Homeworks", description:"Do math and physics"}} />
+          <TodoCard todo={{title:"Do Homeworks", description:"Do math and physics"}} />
+          <TodoCard todo={{title:"Do Homeworks", description:"Do math and physics"}} />
+          <TodoCard todo={{title:"Do Homeworks", description:"Do math and physics"}} />
+
+
+          </div>          
         </div>
 
 
-         </>
-      ):
-      (
-        <>
-         <h1>You are not logged In</h1>
-        </>
-      )
-      }
     </div>
   )
 }
