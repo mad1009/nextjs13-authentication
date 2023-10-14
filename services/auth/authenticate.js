@@ -15,7 +15,6 @@ export const signUp = async (user)=>{
 
 export const authenticate = async (email, password)=>{
     const user = await prisma.user.findUnique({where:{email}})
-    console.log('user', user)
     if(!user){
         return undefined
     }

@@ -22,7 +22,7 @@ function ProfilePage() {
                 <h2 className="card-title">{session.user.name}</h2>
                 <p>{session.user.email}</p>
                 <div className="card-actions">
-                <button className="btn btn-neutral" onClick={async ()=> await signOut({redirect: false, callbackUrl: "/users/signin"})} >Logout</button>
+                <button className="btn btn-neutral" onClick={async ()=> await signOut({callbackUrl: "/users/signin"})} >Logout</button>
                 </div>
             </div>
             </div>

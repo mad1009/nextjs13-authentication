@@ -66,4 +66,5 @@ model Todo {
   delivryTime      DateTime?
   title            String
   description      String?
+  done             Boolean @default(false)
 }

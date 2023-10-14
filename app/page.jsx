@@ -1,5 +1,5 @@
-import TodoCard from "@/components/TodoCard"
 import TodoList from "@/components/TodoList"
+import { prisma } from "@/services/auth/authenticate"
 import { getServerSession } from "next-auth"
 import { redirect } from 'next/navigation'
 
@@ -8,20 +8,10 @@ export default async function Home() {
   if(!session){
     return redirect('/users/signin')
   }
-  console.log('session', session)
-  const todos = await new Promise((resolve, reject)=>{
-    return resolve([
-      {id:"1",title:"Do Homeworks", description:"Do math and physics"},
-      {id:"2",title:"Do Homeworks", description:"Do math and physics"},
-      {id:"3",title:"Do Homeworks", description:"Do math and physics"},
-      {id:"4",title:"Do Homeworks", description:"Do math and physics"},
-      {id:"5",title:"Do Homeworks", description:"Do math and physics"},
-      {id:"6",title:"Do Homeworks", description:"Do math and physics"},
-    ])
-  })
-  console.log('todos', todos)
+  const user = await prisma.user.findUnique({where:{email:session?.user.email},select:{todos:true}})
+  const todos = user.todos
   return (
-    <div className="h-screen container mx-auto mt-4" >
+    <div className="h-screen container mx-auto px-4 mt-4" >
       <TodoList todoList={todos} />
 
     </div>
