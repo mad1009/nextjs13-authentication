@@ -2,9 +2,10 @@
 import React, { useState } from 'react'
 
 function TodoCard({todo}) {
+    console.log('todo', todo)
     return (
 
-        <div className="card sm:w-full md:w-96 glass">
+        <div className="card w-full  lg:w-[350px] glass">
         <div className="card-body">
         <h2 className="card-title">{todo.title}</h2>
         <p>{todo.description}</p>
