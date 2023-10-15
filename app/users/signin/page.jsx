@@ -73,9 +73,14 @@ function SignInPage() {
             <button className='btn btn-success w-full' disabled={loading} >{loading ? 'Loading...' : 'Submit'}</button>
             <div className="divider divider-vertical ">OR</div>
 
-            <button type='button' className='btn btn-neutral' onClick={() => signIn('github')}>
+            <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('github')}>
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width={30} />
                 Sign in with Github
+            </button>
+
+            <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('google')}>
+                <img src="https://w7.pngwing.com/pngs/326/85/png-transparent-google-logo-google-text-trademark-logo-thumbnail.png" width={30} />
+                Sign in with Google (test mode)
             </button>
 
 
