@@ -75,12 +75,12 @@ function SignInPage() {
 
             <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('github')}>
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width={30} />
-                Sign in with Github
+                Github
             </button>
 
             <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('google')}>
-                <img src="https://w7.pngwing.com/pngs/326/85/png-transparent-google-logo-google-text-trademark-logo-thumbnail.png" width={30} />
-                Sign in with Google (test mode)
+                <img src="https://www.vectorlogo.zone/logos/google/google-icon.svg" width={30} />
+                Google (test mode)
             </button>
 
 
