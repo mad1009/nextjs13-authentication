@@ -38,7 +38,7 @@ function TodoList({todoList}) {
             <div>
             <TodoModal addNewTodo={addNewTodo} />
             <div className="px-3 my-2 flex flex-wrap gap-5 ">
-                {!todos ? (
+                {todos ? (
                     <>
                     {todos.map((todo)=>(
                         <TodoCard updateTodo={updateTodo} markAsDone={markAsDone} deleteTodo={deleteTodo}  key={todo.id} todo={todo} />
