@@ -24,16 +24,30 @@ function TodoList({todoList}) {
         setTodos(updatedTodos)
     }
 
+    const updateTodo = function(todo){
+        const updatedTodos = todos.map(td=>{
+            if(td.id == todo.id){td.title = todo.title; td.description = todo.description}
+            return td
+        })
+        setTodos(updatedTodos)
+    }
+
     return (
         <div >
             <h1 className="text-2xl font-semibold my-2" >My Todos</h1>
             <div>
             <TodoModal addNewTodo={addNewTodo} />
             <div className="px-3 my-2 flex flex-wrap gap-5 ">
-
+                {!todos ? (
+                    <>
                     {todos.map((todo)=>(
-                        <TodoCard markAsDone={markAsDone} deleteTodo={deleteTodo}  key={todo.id} todo={todo} />
+                        <TodoCard updateTodo={updateTodo} markAsDone={markAsDone} deleteTodo={deleteTodo}  key={todo.id} todo={todo} />
                     ))}
+                    </>
+                ):(
+                    <p className='text-center text-2xl font-mono flex-1' >No todos for today</p>
+                )}
+
                 </div>          
             </div>
         </div>

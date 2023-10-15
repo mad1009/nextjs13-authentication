@@ -19,7 +19,8 @@ function SignUpPage() {
             e.preventDefault()
             setLoading(true)
             const response = await axios.post('/api/users/signup',{name, email, password, image})
-            console.log(response.data)            
+            console.log(response.data)
+            router.push('/users/signin')         
         } catch (error) {
             if( error.response ){
                 console.log("error.response.data", error.response.data); // => the response payload 
