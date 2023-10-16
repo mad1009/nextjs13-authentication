@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TodoModal from './TodoModal'
 import TodoCard from './TodoCard'
 
@@ -31,7 +31,12 @@ function TodoList({todoList}) {
         })
         setTodos(updatedTodos)
     }
-
+    useEffect(() => {
+        console.log("updated")
+        todoList = todos
+    
+    }, [todos])
+    
     return (
         <div >
             <h1 className="text-2xl font-semibold my-2" >My Todos</h1>

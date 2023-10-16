@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  next-app:
+    container_name: next-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 294960
+      POSTGRES_USER: postgres
+      POSTGRES_DB: todos
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
