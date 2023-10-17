@@ -1,12 +1,14 @@
 'use client'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { BsCheck2, BsGear, BsPenFill, BsPencil, BsTrash, BsX } from 'react-icons/bs'
+import { BsCheck2, BsGear,  BsTrash, BsX } from 'react-icons/bs'
+import Moment from 'moment';
 
 function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
     const [currentTodo, setCurrentTodo] = useState(todo)
     const [editMode, setEditMode] = useState(false)
-    
+    Moment.locale('en');
+
     const handleDelete = async function(){
         if(confirm('Are you sure ?')){
             try {
@@ -87,7 +89,12 @@ function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
             (
                 <p>{todo.description}</p>
             )}
-
+            <div className='d-flex flex-col'>
+                <p className='text-sm font-light italic' >created at: {Moment(todo.createdAt).format('D MMM Y h:m')}</p>
+                {todo.updatedAt !== todo.createdAt && (
+                    <p className='text-sm font-light italic' >updated at: {Moment(todo.updatedAt).format('D MMM Y h:m')}</p>
+                )}
+            </div>
         <div className="card-actions justify-end">
             <button onClick={()=>setEditMode((val)=>!val)} className="btn btn-neutral  btn-sm rounded-md my-2"><BsGear /></button>
             <button onClick={(e)=>handleTodoStatus()} className={`btn ${todo.done ? 'btn-neutral' : 'btn-accent'} btn-sm rounded-md my-2`}>{todo.done ?<BsX /> : <BsCheck2 /> }</button>
