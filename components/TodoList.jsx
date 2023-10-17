@@ -16,7 +16,6 @@ function TodoList({todoList}) {
 
     const addNewTodo = (todo)=>{
         setTodos(data=>[...data, todo])
-        setFiltredTodos(data=>[...data, todo])
     }
     
     const deleteTodo = (todo)=>{
@@ -42,20 +41,25 @@ function TodoList({todoList}) {
     useEffect(() => {
         console.log("updated")
         todoList = todos
+        handleShowSwitch()
     
     }, [todos])
     
     useEffect(() => {
+        handleShowSwitch()
+    }, [hideDone])
+    
+    const handleShowSwitch = ()=>{
         if(hideDone == true){
             const filtred = todos.filter(t=>t.done !== true)
+            console.log('filtred', filtred)
             setFiltredTodos(filtred)
+
         }else{
             const filtred = todos
             setFiltredTodos(filtred)
         }
-    }, [hideDone])
-    
-
+    }
 
     return (
         <div >
@@ -104,14 +108,16 @@ function TodoList({todoList}) {
 
             </div>
             <div className="px-3 my-2 flex flex-wrap gap-5 ">
-                {filtredTodos ? (
+                {filtredTodos.length > 0 ? (
                     <>
                     {filtredTodos.map((todo)=>(
                         <TodoCard updateTodo={updateTodo} markAsDone={markAsDone} deleteTodo={deleteTodo}  key={todo.id} todo={todo} />
                     ))}
                     </>
                 ):(
-                    <p className='text-center text-2xl font-mono flex-1' >No todos for today</p>
+                    <div className='h-40 flex items-center justify-center w-full'>
+                        <p className='text-center text-2xl font-mono flex-1' >No todos for today</p>
+                    </div>
                 )}
 
                 </div>          
