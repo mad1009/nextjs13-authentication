@@ -3,12 +3,15 @@ import axios from 'axios';
 import Moment from 'moment';
 import React, { useCallback, useRef, useState } from 'react'
 import { BsPlus } from 'react-icons/bs';
+import { FaSpinner } from 'react-icons/fa';
 
 function TodoModal({addNewTodo}) {
     
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [delivryTime, setDelivryTime] = useState("")
+    
+    const [loading, setLoading] = useState(false)
 
     const ref = useRef();
     const closeBtnRef = useRef();
@@ -20,6 +23,7 @@ function TodoModal({addNewTodo}) {
     const createTodo = async (e)=>{
         e.preventDefault()
         try {
+            setLoading(true)
             const payload = {title, description}
             if(delivryTime){
                 payload.delivryTime = Moment(delivryTime).toISOString()
@@ -41,6 +45,8 @@ function TodoModal({addNewTodo}) {
                 alert(`Sign Up failed: ${error.message}`)  
             }
         
+        }finally{
+            setLoading(false)
         }
 
     }
@@ -76,7 +82,7 @@ function TodoModal({addNewTodo}) {
                             </label>
                             <input type="datetime-local"   onChange={(e)=>setDelivryTime(e.target.value)} value={delivryTime} className="input input-bordered w-full " />
                         </div>
-                        <button className='btn btn-neutral float-right'>Submit</button>
+                        <button disabled={loading} className='btn btn-neutral float-right'>{loading ? (<FaSpinner className='animate-spin' />) : 'Submit'}</button>
                     </form>
 
                     

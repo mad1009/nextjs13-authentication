@@ -3,6 +3,7 @@ import axios from 'axios'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { FaSpinner } from 'react-icons/fa'
 
 function SignInPage() {
     const router = useRouter()
@@ -15,6 +16,7 @@ function SignInPage() {
 
     const login = async (e)=>{
         try {
+            setLoading(true)
             e.preventDefault()
             const loggedIn = await signIn('credentials',{
                 email,
@@ -23,7 +25,7 @@ function SignInPage() {
             })
             if(loggedIn.error){
                 
-                loggedIn.error == "CredentialsSignin" ? setError("Invalid credentials") : setError(loggedIn.error)
+                loggedIn.error == "CredentialsSignin" ? setError("Invalid credentials") : setError("Cant Login")
             }else{
                 router.push('/')
             }
@@ -33,6 +35,7 @@ function SignInPage() {
 
     }
 
+    
     if(session) return router.push('/')
   
     return (
@@ -70,15 +73,15 @@ function SignInPage() {
                 <input type="password" required placeholder="Enter your password" onChange={(e)=>setPassword(e.target.value)} value={password} className="input input-bordered w-full max-w-xs" />
             </div>
 
-            <button className='btn btn-success w-full' disabled={loading} >{loading ? 'Loading...' : 'Submit'}</button>
+            <button className='btn btn-success w-full' disabled={loading} >{loading ? (<FaSpinner className='animate-spin' />) : 'Submit'}</button>
             <div className="divider divider-vertical ">OR</div>
 
-            <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('github')}>
+            <button type='button' className='btn btn-neutral my-2' disabled={loading} onClick={(e) =>{setLoading(true); signIn('github')}}>
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width={30} />
                 Github
             </button>
 
-            <button type='button' className='btn btn-neutral my-2' onClick={() => signIn('google')}>
+            <button type='button' className='btn btn-neutral my-2' disabled={loading} onClick={(e) =>{setLoading(true); signIn('google')}}>
                 <img src="https://www.vectorlogo.zone/logos/google/google-icon.svg" width={30} />
                 Google (test mode)
             </button>
