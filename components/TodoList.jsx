@@ -52,7 +52,7 @@ function TodoList({todoList}) {
             const filtred = todos
             setFiltredTodos(filtred)
         }
-    }, [hideDone])
+    }, [hideDone, todos])
     
 
 
