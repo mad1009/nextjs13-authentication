@@ -16,6 +16,7 @@ function TodoList({todoList}) {
 
     const addNewTodo = (todo)=>{
         setTodos(data=>[...data, todo])
+        setFiltredTodos(data=>[...data, todo])
     }
     
     const deleteTodo = (todo)=>{
@@ -52,7 +53,7 @@ function TodoList({todoList}) {
             const filtred = todos
             setFiltredTodos(filtred)
         }
-    }, [hideDone, todos])
+    }, [hideDone])
     
 
 
