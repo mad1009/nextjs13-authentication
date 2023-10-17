@@ -1,5 +1,6 @@
 import TodoList from "@/components/TodoList"
 import { prisma } from "@/services/auth/authenticate"
+import moment from "moment"
 import { getServerSession } from "next-auth"
 import { redirect } from 'next/navigation'
 
@@ -9,7 +10,9 @@ export default async function Home() {
   if(!session){
     return redirect('/users/signin')
   }
-  const user = await prisma.user.findUnique({where:{email:session?.user.email},select:{todos:true}})
+  const user = await prisma.user?.findUnique({where:{email:session?.user.email},select:{todos:true}
+  }
+  )
   const todos = user?.todos
   return (
     <div className="h-screen container mx-auto px-4 mt-4" >
@@ -18,3 +21,12 @@ export default async function Home() {
     </div>
   )
 }
+
+// {
+//   where: {
+//     OR: [
+//       { done: false},
+//       { createdAt: {gte: moment(new Date()).set({hour:0, minute:0})} }
+//     ]
+//   }
+// }

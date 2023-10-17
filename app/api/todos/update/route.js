@@ -18,12 +18,13 @@ export async function POST(request) {
                 where:{id:data.id},
                 data:{
                     title: data.title,
-                    description: data.description
+                    description: data.description,
+                    delivryTime: data.delivryTime,
                 }
             }
             )
         console.log('updatedTodo', updatedTodo)
-        return new NextResponse("Done", {status:200})
+        return new NextResponse(JSON.stringify(updatedTodo), {status:200})
             
     } catch (error) {
         console.error(error)

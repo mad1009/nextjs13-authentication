@@ -1,5 +1,6 @@
 'use client'
 import axios from 'axios';
+import Moment from 'moment';
 import React, { useCallback, useRef, useState } from 'react'
 import { BsPlus } from 'react-icons/bs';
 
@@ -7,6 +8,7 @@ function TodoModal({addNewTodo}) {
     
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
+    const [delivryTime, setDelivryTime] = useState("")
 
     const ref = useRef();
     const closeBtnRef = useRef();
@@ -18,11 +20,16 @@ function TodoModal({addNewTodo}) {
     const createTodo = async (e)=>{
         e.preventDefault()
         try {
-            const response = await axios.post('/api/todos', {title, description})
+            const payload = {title, description}
+            if(delivryTime){
+                payload.delivryTime = Moment(delivryTime).toISOString()
+            }
+            const response = await axios.post('/api/todos', payload)
             console.log('response', response.data)
             addNewTodo(response.data)
             setTitle('')
             setDescription('')
+            setDelivryTime('')
             closeBtnRef.current?.click()
                 
         } catch (error) {
@@ -62,6 +69,12 @@ function TodoModal({addNewTodo}) {
                                 <span className="label-text">Description*</span>
                             </label>
                             <input type="text" required placeholder="Describe your task" onChange={(e)=>setDescription(e.target.value)} value={description} className="input input-bordered w-full " />
+                        </div>
+                        <div className="form-control my-2 w-full ">
+                            <label className="label">
+                                <span className="label-text">Reminder</span>
+                            </label>
+                            <input type="datetime-local"   onChange={(e)=>setDelivryTime(e.target.value)} value={delivryTime} className="input input-bordered w-full " />
                         </div>
                         <button className='btn btn-neutral float-right'>Submit</button>
                     </form>

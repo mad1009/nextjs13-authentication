@@ -2,7 +2,10 @@ import {PrismaClient} from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
 
-export const prisma = new PrismaClient()
+export const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+
+})
 
 
 export const signUp = async (user)=>{
