@@ -10,7 +10,14 @@ export default async function Home() {
   if(!session){
     return redirect('/users/signin')
   }
-  const user = await prisma.user?.findUnique({where:{email:session?.user.email},select:{todos:true}
+  const user = await prisma.user?.findUnique({where:{email:session?.user.email},select:{todos:{
+    where: {
+      OR: [
+        { done: false},
+        { createdAt: {gte: moment(new Date()).set({hour:0, minute:0})} }
+      ]
+    }
+  }}
   }
   )
   const todos = user?.todos
@@ -22,11 +29,3 @@ export default async function Home() {
   )
 }
 
-// {
-//   where: {
-//     OR: [
-//       { done: false},
-//       { createdAt: {gte: moment(new Date()).set({hour:0, minute:0})} }
-//     ]
-//   }
-// }

@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -27,7 +26,7 @@ function SignInPage() {
                 
                 loggedIn.error == "CredentialsSignin" ? setError("Invalid credentials") : setError("Cant Login")
             }else{
-                router.push('/')
+                return router.push('/')
             }
         } finally {
             setLoading(false)
