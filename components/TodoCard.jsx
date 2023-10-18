@@ -4,54 +4,57 @@ import React, { useState } from 'react'
 import { BsCheck2, BsGear,  BsTrash, BsX } from 'react-icons/bs'
 import Moment from 'moment';
 import { FaSpinner } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
     const [currentTodo, setCurrentTodo] = useState({...todo, delivryTime:Moment(todo.delivryTime).format('YYYY-MM-DDTHH:mm')})
     const [editMode, setEditMode] = useState(false)
-    const [loadingDelete, setLoadingDelete] = useState(false)
-    const [loadingEdit, setLoadingEdit] = useState(false)
-    const [loadingState, setLoadingState] = useState(false)
+    const [loading, setLoading] = useState(false)
     Moment.locale('en');
 
     const handleDelete = async function(){
         if(confirm('Are you sure ?')){
             try {
-                setLoadingDelete(true)
+                setLoading(true)
                 const response = await axios.post('/api/todos/delete', todo)
                 console.log('response', response.data)
-                deleteTodo(todo)                    
+                deleteTodo(todo) 
+                toast.success('Deleted successfully',{position:'bottom-right'})
+                   
             } catch (error) {
                 if( error.response ){
                     console.log("error.response.data", error.response.data); // => the response payload 
-                    alert(`Delete todo failed failed: ${error.response.data.error}`)
+                    toast.error(`failed to delete todo: ${error.response.data.error}`,{position:'bottom-right'})
                 }else{
                     console.log("Delete todo failed failed", error.message);
-                    alert(`Delete todo failed failed: ${error.message}`)  
+                    toast.error(`failed to delete todo: ${error.message}`,{position:'bottom-right'})
                 }
             
             }finally{
-                setLoadingDelete(false)
+                setLoading(false)
             }
             }
     }
     
     const handleTodoStatus = async function(){
         try {
-            setLoadingState(true)
+            setLoading(true)
             const response = await axios.post('/api/todos/status', todo)
             console.log('response', response.data)
-            markAsDone(todo)                    
+            markAsDone(todo)
+            toast.success('Saved successfully',{position:'bottom-right'})
+                 
         } catch (error) {
             if( error.response ){
                 console.log("error.response.data", error.response.data); // => the response payload 
-                alert(`State update failed: ${error.response.data.error}`)
+                toast.error(`failed to save todo: ${error.response.data.error}`,{position:'bottom-right'})
             }else{
                 console.log("State update failed", error.message);
-                alert(`State update failed: ${error.message}`)  
+                toast.error(`failed to save todo: ${error.message}`,{position:'bottom-right'})
             }
         
         }finally{
-            setLoadingState(false)
+            setLoading(false)
         }
 
     }
@@ -59,22 +62,24 @@ function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
     const handleUpdateTodo = async function(){
         try {
             if(currentTodo.description == "" || currentTodo.title == "") return alert("Title and description are required");
-            setLoadingEdit(true)
+            setLoading(true)
             const response = await axios.post('/api/todos/update', {...currentTodo, delivryTime:Moment(currentTodo.delivryTime).toISOString()})
             console.log('response', response.data)
             setEditMode(false)                
             updateTodo(response.data)
+            toast.success('Saved successfully:',{position:'bottom-right'})
+
         } catch (error) {
             if( error.response ){
-                console.log("error.response.data", error.response.data); // => the response payload 
+                toast.error(`failed to save todo: ${error.response.data.error}`,{position:'bottom-right'})
                 alert(`Update failed: ${error.response.data.error}`)
             }else{
                 console.log("Update failed", error.message);
-                alert(`Update failed: ${error.message}`)  
+                toast.error(`failed to save todo: ${error.message}`,{position:'bottom-right'})
             }
         
         }finally{
-            setLoadingEdit(false)
+            setLoading(false)
         }
     }
     
@@ -104,7 +109,7 @@ function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
                     <div className="form-control w-full max-w-xs">
                         <input type="datetime-local"  onChange={(e)=>setCurrentTodo({...currentTodo, delivryTime:e.target.value})} value={currentTodo.delivryTime} className="input input-bordered w-full max-w-xs" />
                     </div>
-                    <button onClick={(e)=>handleUpdateTodo(e)} className='btn btn-primary' disabled={loadingEdit} >{loadingEdit ? (<FaSpinner className='animate-spin' />) : 'Submit'}</button>
+                    <button onClick={(e)=>handleUpdateTodo(e)} className='btn btn-primary' disabled={loading} >{loadingEdit ? (<FaSpinner className='animate-spin' />) : 'Submit'}</button>
                 </>
             ):
             (
@@ -117,9 +122,9 @@ function TodoCard({todo, deleteTodo, markAsDone, updateTodo}) {
                 )}
             </div>
         <div className="card-actions justify-end">
-            <button onClick={()=>setEditMode((val)=>!val)} className="btn btn-neutral  btn-sm rounded-md my-2"><BsGear /></button>
-            <button onClick={(e)=>handleTodoStatus()} className={`btn ${todo.done ? 'btn-neutral' : 'btn-accent'} btn-sm rounded-md my-2`} disabled={loadingState} >{loadingState ? (<FaSpinner className='animate-spin' />):(<> {todo.done ?<BsX /> : <BsCheck2 /> } </>)}</button>
-            <button onClick={handleDelete}  className="btn btn-outline btn-error btn-sm rounded-md my-2" disabled={loadingDelete}>{loadingDelete ? (<FaSpinner className='animate-spin' />):(<BsTrash />)}</button>
+            <button onClick={()=>setEditMode((val)=>!val)} disabled={loading} className="btn btn-neutral  btn-sm rounded-md my-2"><BsGear /></button>
+            <button onClick={(e)=>handleTodoStatus()} className={`btn ${todo.done ? 'btn-neutral' : 'btn-accent'} btn-sm rounded-md my-2`} disabled={loading} >{loading ? (<FaSpinner className='animate-spin' />):(<> {todo.done ?<BsX /> : <BsCheck2 /> } </>)}</button>
+            <button onClick={handleDelete}  className="btn btn-outline btn-error btn-sm rounded-md my-2" disabled={loading}>{loading ? (<FaSpinner className='animate-spin' />):(<BsTrash />)}</button>
 
         </div>
         </div>

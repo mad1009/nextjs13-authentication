@@ -27,7 +27,7 @@ export async function GET(request) {
     if(!session) return new NextResponse(JSON.stringify({error:"Unautaurized"}), {status:401})
     try {
         const searchParams = request.nextUrl.searchParams
-        
+        // TODO: refactor this spaguetti code
         const datesFilter = {}
         if(searchParams.get("startDate")){
             datesFilter.gte = moment(searchParams.get("startDate")).toISOString()
