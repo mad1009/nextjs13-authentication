@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { prisma, signUp } from "@/services/auth/authenticate";
+import { exclude, prisma, signUp } from "@/services/auth/authenticate";
 
 
 export async function POST(request) {
@@ -14,7 +14,7 @@ export async function POST(request) {
     }
     try {
         const user = await signUp(data)
-        return new NextResponse(JSON.stringify(user),{status:201})
+        return new NextResponse(JSON.stringify(exclude(user, ['password'])),{status:201})
 
         
     } catch (error) {

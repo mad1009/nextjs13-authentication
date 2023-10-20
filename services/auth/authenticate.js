@@ -24,7 +24,7 @@ export const authenticate = async (email, password)=>{
     try {
         const passwordCorrect = await bcryptjs.compare(password, user.password)
         if(!passwordCorrect) return undefined
-        const token = jwt.sign(user, process.env.NEXTAUTH_SECRET, {expiresIn:"1d"})
+        const token = jwt.sign(exclude(user, ['password']), process.env.NEXTAUTH_SECRET, {expiresIn:"1d"})
         return {token, user}
     } catch (error) {
         console.error(error)
@@ -33,3 +33,10 @@ export const authenticate = async (email, password)=>{
     
 }
 
+
+
+export function exclude(user, keys){
+    return Object.fromEntries(
+      Object.entries(user).filter(([key]) => !keys.includes(key))
+    )
+  }
