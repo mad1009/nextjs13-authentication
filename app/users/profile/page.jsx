@@ -10,7 +10,11 @@ function ProfilePage() {
     if(!session) return router.push('/users/signin')
   
     return (
-        <div className="h-screen flex items-center justify-center" >
+        <div className="min-h-screen">
+            <div className='my-8'>
+                <span className="text-5xl font-semibold " >Profile</span>
+            </div>
+            <div className='flex items-center justify-center'>
             <div className="card w-96 bg-base-100 shadow-xl">
             <figure className="px-10 pt-10">
                 <div className="avatar">
@@ -20,12 +24,14 @@ function ProfilePage() {
                 </div>
             </figure>
             <div className="card-body items-center text-center">
-                <h2 className="card-title">{session.user.name}</h2>
+                <h2 className="card-title">{session.user.name || "-"}</h2>
                 <p>{session.user.email}</p>
                 <div className="card-actions">
                     <ProfileModal user={session?.user} />
                 </div>
             </div>
+            </div>
+
             </div>
         </div>
     )

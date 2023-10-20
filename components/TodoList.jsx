@@ -106,9 +106,12 @@ function TodoList({todoList}) {
     }
     return (
         <div >
-            <h1 className="text-3xl font-semibold my-4" >My Todos</h1>
+            <div className='my-8'>
+                <span className="text-5xl font-semibold " >My Todos</span>
+                <span className="text-sm font-light mx-2" >({todos.length ?? 0} todos)</span>
+            </div>
             <div>
-                <form ref={formFilterRef} onSubmit={handleFilterForm} className=" glass p-3 flex  justify-around items-center flex-col lg:flex-row">
+                <form ref={formFilterRef} onSubmit={handleFilterForm} className=" bg-white rounded-md p-3 flex  justify-around items-center flex-col lg:flex-row">
                     <div className="form-control my-2 max-w-sm ">
                         <label className="label">
                             <span className="label-text">Start Date</span>
